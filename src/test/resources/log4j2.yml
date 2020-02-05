@@ -1,0 +1,17 @@
+Configuration:
+  status: debug
+
+  appenders:
+    ListAppender:
+      - name: LogAppender
+      - name: ErrorAppender
+
+  Loggers:
+    logger:
+      - name: org.nds.logger.LoggerService
+        level: debug
+        additivity: false
+        AppenderRef:
+          - ref: LogAppender
+          - ref: ErrorAppender
+            level: error
