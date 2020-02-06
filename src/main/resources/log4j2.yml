@@ -9,45 +9,20 @@ Configuration:
         Pattern: "%style{%date{yyyy-MM-dd HH:mm:ss.SSS}}{black} %highlight{%-5level }[%style{%thread}{bright,blue}] %style{%class:%line}{bright,yellow}: %msg%n%throwable"
         disableAnsi: false
 
-    RollingFile:
-      - name: LogToAuditLog
-        fileName: logs/LoggerAudit.log
-        filePattern: "logs/$${date:yyyy-MM}/LoggerApplication-%d{-dd-MMMM-yyyy}-%i.log.gz"
-        PatternLayout:
-          pattern: "%date{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%t] %class:%line - %msg%n%throwable"
-        Policies:
-          SizeBasedTriggeringPolicy:
-            size: 10MB
-        DefaultRollOverStrategy:
-          max: 10
-      - name: LogToErrorLog
-        fileName: logs/LoggerError.log
-        filePattern: "logs/$${date:yyyy-MM}/LoggerApplication-%d{-dd-MMMM-yyyy}-%i.log.gz"
-        PatternLayout:
-          pattern: "%date{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%t] %class:%line - %msg%n%throwable"
-        Policies:
-          SizeBasedTriggeringPolicy:
-            size: 10MB
-        DefaultRollOverStrategy:
-          max: 10
     ApplicationInsightsAppender:
-      - name: aiLogAppender
+      - name: aiAuditAppender
         instrumentationKey: e8464577-9a8d-4624-b33e-66d256b5938c
       - name: aiErrorAppender
         instrumentationKey: 7621f070-0d9f-4a38-9fd8-79a6d6af34ff
 
-
   Loggers:
-    logger:
+    Logger:
       - name: org.nds
         level: debug
         additivity: false
         AppenderRef:
           - ref: LogToConsole
-          - ref: LogToAuditLog
-          - ref: aiLogAppender
-          - ref: LogToErrorLog
-            level: error
+          - ref: aiAuditAppender
           - ref: aiErrorAppender
             level: error
 
